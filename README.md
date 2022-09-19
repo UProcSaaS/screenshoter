@@ -111,6 +111,14 @@ docker run -d --restart always -p 8080:8080 --name screenshoter -e "SCREENSHOTER
 
 NOTE the example uses both env var and arg for setting a secret, any one is enough.
 
+### CookieBlocker
+
+| CLI arg                   | EnvVar                              | Default                                               | Comment                                                                                    |
+|---------------------------|-------------------------------------|-------------------------------------------------------|-------------------------------------------------------------------------------------------|
+| --cookie-blocker-enabled  | SCREENSHOTER_COOKIE_BLOCKER_ENABLED | false                                                 | Enables/disables cookie blocker                                                            |
+| --cookie-blocker-list     | SCREENSHOTER_COOKIE_BLOCKER_LIST    | https://secure.fanboy.co.nz/fanboy-cookiemonster.txt  | Default list to load when detecting cookies popups |
+
+
 # API Reference
 
 ```

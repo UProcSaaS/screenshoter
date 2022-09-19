@@ -24,9 +24,10 @@ sharp.cache(false) // to avoid a stack overflow
  * @param req
  * @param res
  * @param {(Cache|null)} cache
+ * @param blocker
  * @return {Promise<void>}
  */
-module.exports = async (browser, req, res, cache) => {
+module.exports = async (browser, req, res, cache, blocker) => {
 
     /** @type {Logger} */
     const logger = req.logger || new NullLogger();
@@ -218,6 +219,17 @@ module.exports = async (browser, req, res, cache) => {
         return;
     }
 
+    //Cookie blocker
+    try {
+        if (blocker) {
+            //await blocker.enableBlockingInPage(page);
+        }
+    } catch (e) {
+        logger.error(e);
+        res.status(400).end('Error while creating adding the cookie blocker to the page: ' + e.message);
+        return;
+    }
+
     page.on('error', (e) => {
         logger.error(e);
         res.status(400).end('Page crashed!');
@@ -315,6 +327,10 @@ module.exports = async (browser, req, res, cache) => {
             await context.close();
             return;
         }
+    }
+
+    if (cookieBlockerEnabled) {
+        await blocker.enableBlockingInPage(page);
     }
 
     let options = {};

@@ -14,7 +14,9 @@
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.44.0",
+    "@cliqz/adblocker-puppeteer": "^1.25.1",
     "@mingalevme/secure-link": "^0.1.5",
+    "cross-fetch": "^3.1.5",
     "express": "^4.17.1",
     "express-prom-bundle": "^6.4.1",
     "log-timestamp": "^0.3.0",
@@ -22,10 +24,10 @@
     "node-gyp": "^8.1.0",
     "process": "^0.11.10",
     "puppeteer": "^14.4.1",
+    "puppeteer-autoscroll-down": "^1.1.1",
     "redis": "^4.0.0",
     "sharp": "^0.30.6",
-    "simple-get": ">=4.0.1",
-    "puppeteer-autoscroll-down": "^1.1.1"
+    "simple-get": ">=4.0.1"
   },
   "devDependencies": {
     "@aws-sdk/smithy-client": "^3.41.0",

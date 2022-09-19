@@ -2,6 +2,9 @@ require('log-timestamp');
 const express = require('express');
 const process = require('process');
 const puppeteer = require('puppeteer');
+const { PuppeteerBlocker } = require('@cliqz/adblocker-puppeteer');
+const fetch = require('cross-fetch');
+
 const minimist = require('minimist');
 const controller = require('./controller');
 const secureLinkMiddleware = require('./secure-link');
@@ -51,6 +54,11 @@ const metricsBuckets = (() => {
         ? value.split(/,\s*/).map(v => +v)
         : null;
 })();
+
+/** @type {boolean|false} */
+const cookieBlockerEnabled = argv['cookie-blocker-enabled'] || process.env.SCREENSHOTER_COOKIE_BLOCKER_ENABLED || false;
+/** @type {string|null} */
+const cookieBlockerList = argv['cookie-blocker-list'] || process.env.SCREENSHOTER_COOKIE_BLOCKER_LIST || 'https://secure.fanboy.co.nz/fanboy-cookiemonster.txt';
 
 /** @type {string|null} */
 const secureLinkSecret = argv['secure-link-secret'] || process.env.SCREENSHOTER_SECURE_LINK_SECRET || null;
@@ -117,8 +125,15 @@ if (cache) {
 }
 
 (async () => {
-    const browser = await puppeteer.launch(puppeteerLaunchOptions);
+    //Enabled cookieBlocker
+    var blocker = null;
+    if (cookieBlockerEnabled) {
+        blocker = await PuppeteerBlocker.fromLists(fetch, [
+            cookieBlockerList
+        ]);
+    }
 
+    const browser = await puppeteer.launch(puppeteerLaunchOptions);
     const app = express();
 
     app.use((req, res, next) => {
@@ -174,7 +189,7 @@ if (cache) {
 
     app.get('/take', (req, res) => {
         try {
-            controller(browser, req, res, cache);
+            controller(browser, req, res, cache, blocker);
         } catch (e) {
             logger.error(e);
             res.status(400).end('Error while processing a request: ' + e.message);
@@ -184,7 +199,7 @@ if (cache) {
     /** @deprecated Use /take instead */
     app.get('/screenshot', (req, res) => {
         try {
-            controller(browser, req, res, cache);
+            controller(browser, req, res, cache, blocker);
         } catch (e) {
             logger.error(e);
             res.status(400).end('Error while processing a request: ' + e.message);

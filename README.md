@@ -42,9 +42,9 @@ curl "http://localhost:8080/take?url=https%3A%2F%2Fhub.docker.com%2Fr%2Fmingalev
 ```
 
 ### Puppeteer arguments
-| CLI arg                  | EnvVar                            | Default | Comment                                                                                    |
-|--------------------------|-----------------------------------|---------|--------------------------------------------------------------------------------------------|
-| --puppeteer-proxy-server | PROXY_SERVER                      |         | Initializes proxy-server argument for Puppeteer                                            |
+| CLI arg                   | EnvVar                            | Default | Comment                                                                                    |
+|---------------------------|-----------------------------------|---------|--------------------------------------------------------------------------------------------|
+| --puppeteer--proxy-server | PROXY_SERVER                      |         | Initializes proxy-server argument for Puppeteer                                            |
 
 
 ### Logging

@@ -93,8 +93,8 @@ module.exports = async (browser, req, res, cache, blocker) => {
         : null;
 
     let cookieBlocker = typeof req.query['cookie-blocker'] === "string"
-        ? !!parseInt(req.query['cookie-blocker'])
-        : null;
+        ? req.query['cookie-blocker'] === "true"
+        : false;
 
     let delay = req.query.delay;
 
@@ -226,7 +226,6 @@ module.exports = async (browser, req, res, cache, blocker) => {
     //Cookie blocker
     try {
         if (cookieBlocker) {
-            console.log("cookieBlocker: true");
             await blocker.enableBlockingInPage(page);
         }
     } catch (e) {
@@ -334,6 +333,7 @@ module.exports = async (browser, req, res, cache, blocker) => {
     }
 
     if (cookieBlocker) {
+        //logger.debug('Cookie blocker: true');
         await blocker.enableBlockingInPage(page);
     }
 

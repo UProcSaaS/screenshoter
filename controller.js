@@ -92,6 +92,10 @@ module.exports = async (browser, req, res, cache, blocker) => {
         ? !!parseInt(req.query['fail-on-timeout'])
         : null;
 
+    let cookieBlocker = typeof req.query['cookie-blocke'] === "string"
+        ? !!parseInt(req.query['cookie-blocker'])
+        : null;
+
     let delay = req.query.delay;
 
     let format = [FORMAT_PNG, FORMAT_JPEG].indexOf(req.query.format) > -1
@@ -221,8 +225,8 @@ module.exports = async (browser, req, res, cache, blocker) => {
 
     //Cookie blocker
     try {
-        if (blocker) {
-            //await blocker.enableBlockingInPage(page);
+        if (cookieBlocker) {
+            await blocker.enableBlockingInPage(page);
         }
     } catch (e) {
         logger.error(e);
@@ -296,7 +300,6 @@ module.exports = async (browser, req, res, cache, blocker) => {
     userAgent = userAgent || defaultUserAgent;
 
     logger.debug('Setting user agent: ', userAgent);
-
     try {
         await page.setUserAgent(userAgent)
     } catch (e) {
@@ -329,7 +332,7 @@ module.exports = async (browser, req, res, cache, blocker) => {
         }
     }
 
-    if (cookieBlockerEnabled) {
+    if (cookieBlocker) {
         await blocker.enableBlockingInPage(page);
     }
 

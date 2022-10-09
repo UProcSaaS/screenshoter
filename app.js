@@ -55,11 +55,6 @@ const metricsBuckets = (() => {
         : null;
 })();
 
-/** @type {boolean|false} */
-const cookieBlockerEnabled = argv['cookie-blocker-enabled'] || process.env.SCREENSHOTER_COOKIE_BLOCKER_ENABLED || false;
-/** @type {string|null} */
-const cookieBlockerList = argv['cookie-blocker-list'] || process.env.SCREENSHOTER_COOKIE_BLOCKER_LIST || 'https://secure.fanboy.co.nz/fanboy-cookiemonster.txt';
-
 /** @type {string|null} */
 const secureLinkSecret = argv['secure-link-secret'] || process.env.SCREENSHOTER_SECURE_LINK_SECRET || null;
 /** @type {string|null} */
@@ -125,13 +120,10 @@ if (cache) {
 }
 
 (async () => {
-    //Enabled cookieBlocker
-    var blocker = null;
-    if (cookieBlockerEnabled) {
-        blocker = await PuppeteerBlocker.fromLists(fetch, [
-            cookieBlockerList
-        ]);
-    }
+    //Add cookie blocker
+    var blocker = await PuppeteerBlocker.fromLists(fetch, [
+        'https://secure.fanboy.co.nz/fanboy-cookiemonster.txt'
+    ]);
 
     const browser = await puppeteer.launch(puppeteerLaunchOptions);
     const app = express();

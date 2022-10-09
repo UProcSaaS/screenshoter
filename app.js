@@ -67,6 +67,10 @@ const secureLinkExpiresArg = argv['secure-link-expires-arg'] || process.env.SCRE
 /** @type {string|null} */
 const chromiumExecutablePath = argv['chromium-executable-path'] || process.env.SCREENSHOTER_CHROMIUM_EXECUTABLE_PATH || null;
 
+/** @type {string|null} */
+//Format: IP:port. Sample: 34.249.133.130:8888
+const proxyServer = argv['puppeteer--proxy-server'] || process.env.PROXY_SERVER || null;
+
 /** @type {string[]} */
 const puppeteerLaunchOptionsArgs = [
     '--no-sandbox',

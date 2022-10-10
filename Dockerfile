@@ -7,15 +7,15 @@ ENV VERSION=${VERSION:-dirty}
 ARG BUILD_DATE
 ARG VCS_REF
 
-LABEL MAINTAINER=miquel@uproc.io \
+LABEL MAINTAINER=mcolomer@killia.com \
     org.label-schema.schema-version="1.1" \
     org.label-schema.name="Google Puppeteer (screenshot) as a Dockerized HTTP-service" \
     org.label-schema.version="$VERSION" \
     org.label-schema.build-date=$BUILD_DATE \
     org.label-schema.vcs-url="https://github.com/UProcSaaS/screenshoter" \
     org.label-schema.vcs-ref=$VCS_REF \
-    org.label-schema.vendor="UProcSaaS" \
-    org.label-schema.docker.cmd="docker run -d --restart always -p 8080:8080 --name screenshoter UProcSaaS/screenshoter"
+    org.label-schema.vendor="killia" \
+    org.label-schema.docker.cmd="docker run -d --restart always -p 8080:8080 --name screenshoter killia/screenshoter"
 
 # Tell Puppeteer to skip installing Chrome. We'll be using the installed package.
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true

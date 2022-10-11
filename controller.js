@@ -92,8 +92,8 @@ module.exports = async (browser, req, res, cache, blocker) => {
         ? !!parseInt(req.query['fail-on-timeout'])
         : null;
 
-    let cookieBlocker = typeof req.query['cookie-blocker'] === "string"
-        ? req.query['cookie-blocker'] === "true"
+    let popupBlocker = typeof req.query['popup-blocker'] === "string"
+        ? req.query['popup-blocker'] === "true"
         : false;
 
     let delay = req.query.delay;
@@ -223,14 +223,14 @@ module.exports = async (browser, req, res, cache, blocker) => {
         return;
     }
 
-    //Cookie blocker
+    //Popup blocker
     try {
-        if (cookieBlocker) {
+        if (popupBlocker) {
             await blocker.enableBlockingInPage(page);
         }
     } catch (e) {
         logger.error(e);
-        res.status(400).end('Error while creating adding the cookie blocker to the page: ' + e.message);
+        res.status(400).end('Error while creating adding the popùp blocker to the page: ' + e.message);
         return;
     }
 
@@ -332,8 +332,8 @@ module.exports = async (browser, req, res, cache, blocker) => {
         }
     }
 
-    if (cookieBlocker) {
-        //logger.debug('Cookie blocker: true');
+    if (popupBlocker) {
+        //logger.debug('popup blocker: true');
         await blocker.enableBlockingInPage(page);
     }
 

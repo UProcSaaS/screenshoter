@@ -2,14 +2,14 @@
 
 [Google Puppeteer](https://github.com/GoogleChrome/puppeteer) as a Dockerized HTTP-service for making screenshots.
 
-![DockerHub](https://github.com/mingalevme/screenshoter/actions/workflows/dockerhub.yml/badge.svg)
+![DockerHub](https://github.com/killia/screenshoter/actions/workflows/dockerhub.yml/badge.svg)
 
-[![nodesource/node](http://dockeri.co/image/mingalevme/screenshoter)](https://hub.docker.com/r/mingalevme/screenshoter/)
+[![nodesource/node](http://dockeri.co/image/killia/screenshoter)](https://hub.docker.com/r/killia/screenshoter/)
 
 ## installation
 
 ```
-docker pull mingalevme/screenshoter
+docker pull killia/screenshoter
 ```
 
 # Usage
@@ -17,7 +17,7 @@ docker pull mingalevme/screenshoter
 ### Basic usage
 
 ```bash
-docker run -d --restart always -p 8080:8080 --name screenshoter mingalevme/screenshoter
+docker run -d --restart always -p 8080:8080 --name screenshoter killia/screenshoter
 ```
 ... or while development:
 
@@ -38,7 +38,7 @@ node app.js --host 127.0.0.1 --port 8080
 Then navigate to url
 
 ```bash
-curl "http://localhost:8080/take?url=https%3A%2F%2Fhub.docker.com%2Fr%2Fmingalevme%2Fscreenshoter%2F" > /tmp/screenshot.png
+curl "http://localhost:8080/take?url=https%3A%2F%2Fhub.docker.com%2Fr%2Fkillia%2Fscreenshoter%2F" > /tmp/screenshot.png
 ```
 
 ### Puppeteer arguments
@@ -92,14 +92,14 @@ To enable export Prometheus metrics (https://www.npmjs.com/package/express-prom-
 Example:
 
 ```bash
-docker run -d --restart always -p 8080:8080 --name screenshoter mingalevme/screenshoter --metrics --metrics-collect-default --metrics-buckets "1,3,5,10,20,30,60"
+docker run -d --restart always -p 8080:8080 --name screenshoter killia/screenshoter --metrics --metrics-collect-default --metrics-buckets "1,3,5,10,20,30,60"
 ```
 
 Metrics are available on `/metrics`-path.
 
 ### Secure Link
 
-You can restrict access to the service via link signing (https://www.npmjs.com/package/@mingalevme/secure-link).
+You can restrict access to the service via link signing (https://www.npmjs.com/package/@killia/secure-link).
 To enable the restriction run the service with `secure-link-secret` arg or `SCREENSHOTER_SECURE_LINK_SECRET` env var, that is you private key to sign/validate links.
 
 | CLI arg                     | EnvVar                            | Default   | Comment                     |
@@ -112,7 +112,7 @@ To enable the restriction run the service with `secure-link-secret` arg or `SCRE
 Example:
 
 ```bash
-docker run -d --restart always -p 8080:8080 --name screenshoter -e "SCREENSHOTER_SECURE_LINK_SECRET=secret" mingalevme/screenshoter --secure-link-hasher sha1 --secure-link-signature-arg _sig --secure-link-expires-arg _expires --secure-link-secret "secret"
+docker run -d --restart always -p 8080:8080 --name screenshoter -e "SCREENSHOTER_SECURE_LINK_SECRET=secret" killia/screenshoter --secure-link-hasher sha1 --secure-link-signature-arg _sig --secure-link-expires-arg _expires --secure-link-secret "secret"
 ```
 
 NOTE the example uses both env var and arg for setting a secret, any one is enough.
@@ -142,7 +142,7 @@ GET /take
 | cookies                           | json       | false    | List with cookies objects (https://github.com/puppeteer/puppeteer/blob/main/docs/api.md#pagesetcookiecookies), e.g. [{"name":"foo","value":"bar","domain":".example.com"}]                                                                                                                                                                                                                                                                                                                                                                                                        |
 | timeout                           | int        | false    | Maximum navigation time in milliseconds, defaults to 30 seconds, pass 0 to disable timeout.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | fail-on-timeout                   | bool (int) | false    | If set to false, we will take a screenshot when timeout is reached instead of failing the request. Defaults to false.                                                                                                                                                                            
-| cookie-blocker                    | bool (int) | false    | If set to true, we will disable any cookie blocker existing on the webpage. Defaults to false.                                                                                                                                                                                                                                                                                        |
+| popup-blocker                    | bool (int) | false     | If set to true, we will disable any popup existing on the webpage. Defaults to false.                                                                                                                                                                                                                                                                                        |
 | delay                             | int        | false    | If set, we'll wait for the specified number of seconds after the page load event before taking a screenshot.                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | wait-until-event                  | string     | false    | Controls when the screenshot is taken as the page loads. Supported events include: load - window load event fired (default); domcontentloaded - DOMContentLoaded event fired; networkidle0 - wait until there are zero network connections for at least 500ms; networkidle2 - wait until there are no more than 2 network connections for at least 500ms. domcontentloaded is the fastest but riskiest option–many images and other asynchronous resources may not have loaded yet. networkidle0 is the safest but slowest option. load is a nice middle ground.Defaults to load. |
 | element                           | string     | false    | Query selector of element to screenshot.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
@@ -161,13 +161,13 @@ GET /take
 If you got page crash with `BUS_ADRERR` ([chromium issue](https://bugs.chromium.org/p/chromium/issues/detail?id=571394)), increase shm-size on docker run with `--shm-size` argument
 
 ```bash
-docker run --shm-size 1G mingalevme/screenshoter
+docker run --shm-size 1G killia/screenshoter
 ```
 
 ### Navigation errors (unreachable url, ERR\_NETWORK_CHANGED)
 If you're seeing random navigation errors (unreachable url) it's likely due to ipv6 being enabled in docker. Navigation errors are caused by ERR_NETWORK_CHANGED (-21) in chromium. Disable ipv6 in your container using `--sysctl net.ipv6.conf.all.disable_ipv6=1` to fix:
 ```bash
-docker run --shm-size 1G --sysctl net.ipv6.conf.all.disable_ipv6=1 -v <cache_dir>:/var/cache/screenshoter mingalevme/screenshoter
+docker run --shm-size 1G --sysctl net.ipv6.conf.all.disable_ipv6=1 -v <cache_dir>:/var/cache/screenshoter killia/screenshoter
 ```
 
 ### Thanks

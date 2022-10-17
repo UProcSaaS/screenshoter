@@ -1,15 +1,15 @@
 {
   "name": "screenshoter",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Puppeteer as a HTTP-service",
   "main": "index.js",
   "scripts": {
     "test": "jest"
   },
-  "author": "Mikhail Mingalev <mingalevme@gmail.com>",
+  "author": "Miquel Colomer <miquel@uproc.io>",
   "repository": {
     "type": "git",
-    "url": "git@github.com:mingalevme/screenshoter.git"
+    "url": "git@github.com:UProcSaaS/screenshoter.git"
   },
   "license": "ISC",
   "dependencies": {

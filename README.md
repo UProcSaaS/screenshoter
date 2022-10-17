@@ -22,6 +22,10 @@ docker build -t killia/screenshoter:1.4.0 .
 docker push killia/screenshoter:1.4.0
 ```
 
+# Features
+This project was forked from [mingalevme/screenshoter](https://github.com/mingalevme/screenshoter).
+Additionally to the great features of this project, I added a Popup Blocker to discard undesired popups when you access any webpage.
+
 # Usage
 
 ### Basic usage

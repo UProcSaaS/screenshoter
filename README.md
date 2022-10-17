@@ -14,7 +14,7 @@ docker pull killia/screenshoter
 
 ## build
 ```
-docker build -t killia/screenshoter:1.4.0
+docker build -t killia/screenshoter:1.4.0 .
 ```
 
 ## publish

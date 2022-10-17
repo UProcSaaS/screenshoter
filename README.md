@@ -55,6 +55,11 @@ Then navigate to url
 curl "http://localhost:8080/take?url=https%3A%2F%2Fhub.docker.com%2Fr%2Fkillia%2Fscreenshoter%2F" > /tmp/screenshot.png
 ```
 
+Or capture screenshot without popups
+```bash
+curl "http://localhost:8080/take?popup-block=true&delay=30000&url=https://www.bershka.com/it/" > /tmp/screenshot.png
+```
+
 ### Puppeteer arguments
 | CLI arg                   | EnvVar                            | Default | Comment                                                                                    |
 |---------------------------|-----------------------------------|---------|--------------------------------------------------------------------------------------------|

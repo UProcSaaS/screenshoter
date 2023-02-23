@@ -253,7 +253,9 @@ if (cache) {
             logger.error(`Error closing browser while gracefully handling browser disconnecting: ${err.message}`, err);
         }
         //await server.close();
+        logger.error("Restarting browser");
         browser = await puppeteer.launch(puppeteerLaunchOptions);
+        logger.error("Browser has been restarted");
         loading = false;
     });
 })();

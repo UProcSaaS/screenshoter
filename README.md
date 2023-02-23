@@ -24,7 +24,7 @@ docker push killia/screenshoter:1.4.0
 
 # Enable service
 ```
-docker service create --name screenshoter --publish published=8080,target=8080 --replicas 5 killia/screenshoter:1.4.0
+docker service create --name screenshoter --publish published=8080,target=8080 --replicas 2 killia/screenshoter:1.4.1
 ```
 
 # Features

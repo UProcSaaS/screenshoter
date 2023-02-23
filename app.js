@@ -254,8 +254,9 @@ if (cache) {
         }
         //await server.close();
         logger.error("Restarting browser");
+        console.time("Browser has been restarted");
         browser = await puppeteer.launch(puppeteerLaunchOptions);
-        logger.error("Browser has been restarted");
+        console.timeEnd("Browser has been restarted");
         loading = false;
     });
 })();

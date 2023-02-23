@@ -128,8 +128,9 @@ if (cache) {
     var blocker = await PuppeteerBlocker.fromLists(fetch, [
         'https://secure.fanboy.co.nz/fanboy-cookiemonster.txt'
     ]);
-
-    const browser = await puppeteer.launch(puppeteerLaunchOptions);
+    var loading = true;
+    var browser = await puppeteer.launch(puppeteerLaunchOptions);
+    loading = false;
     const app = express();
 
     app.use((req, res, next) => {
@@ -244,12 +245,15 @@ if (cache) {
     });
 
     browser.on('disconnected', async () => {
+        loading = true;
         logger.error("Browser has been disconnected");
         try {
             await browser.close();
         } catch (err) {
             logger.error(`Error closing browser while gracefully handling browser disconnecting: ${err.message}`, err);
         }
-        await server.close();
+        //await server.close();
+        browser = await puppeteer.launch(puppeteerLaunchOptions);
+        loading = false;
     });
 })();

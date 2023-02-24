@@ -1,6 +1,6 @@
 {
   "name": "screenshoter",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Puppeteer as a HTTP-service",
   "main": "index.js",
   "scripts": {
@@ -17,7 +17,9 @@
     "@cliqz/adblocker-puppeteer": "^1.25.1",
     "@mingalevme/secure-link": "^0.1.5",
     "cross-fetch": "^3.1.5",
+    "dotenv": "^16.0.3",
     "express": "^4.17.1",
+    "express-basic-auth": "^1.2.1",
     "express-prom-bundle": "^6.4.1",
     "log-timestamp": "^0.3.0",
     "minimist": "^1.2.6",

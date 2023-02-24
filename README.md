@@ -14,17 +14,17 @@ docker pull killia/screenshoter
 
 ## build
 ```
-docker build -t killia/screenshoter:1.4.1 .
+docker build -t killia/screenshoter:1.4.2 .
 ```
 
 ## publish
 ```
-docker push killia/screenshoter:1.4.1
+docker push killia/screenshoter:1.4.2
 ```
 
 # Enable service
 ```
-docker service create --name screenshoter --publish published=8080,target=8080 --replicas 2 killia/screenshoter:1.4.1
+docker service create --name screenshoter --publish published=8080,target=8080 --replicas 2 killia/screenshoter:1.4.2
 ```
 
 # Features
@@ -70,6 +70,11 @@ curl "http://localhost:8080/take?popup-block=true&delay=30000&url=https://www.be
 |---------------------------|-----------------------------------|---------|--------------------------------------------------------------------------------------------|
 | --puppeteer--proxy-server | PROXY_SERVER                      |         | Initializes proxy-server argument for Puppeteer                                            |
 
+### Security
+| CLI arg                | EnvVar                            | Default | Comment                                                                                    |
+|------------------------|-----------------------------------|---------|--------------------------------------------------------------------------------------------|
+| --basic-auth-user      | BASIC_AUTH_USER                   |         | Http Basic user    |
+| --basic-auth-password  | BASIC_AUTH_PASSWORD               |         | Http Basic pass    |
 
 ### Logging
 
@@ -112,6 +117,7 @@ To enable export Prometheus metrics (https://www.npmjs.com/package/express-prom-
 | --metrics                 | SCREENSHOTER_METRICS                 |                     | Enable metrics export                    |
 | --metrics-collect-default | SCREENSHOTER_METRICS_COLLECT_DEFAULT |                     | Export default Prometheus NodeJS metrics |
 | --metrics-buckets         | SCREENSHOTER_METRICS_BUCKETS         | 0.1,0.5,1,3,5,10,20 | "http_request_duration_seconds" buckets  |
+
 
 Example:
 

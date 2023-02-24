@@ -4,6 +4,9 @@ const process = require('process');
 const puppeteer = require('puppeteer');
 const { PuppeteerBlocker } = require('@cliqz/adblocker-puppeteer');
 const fetch = require('cross-fetch');
+const basicAuth = require('express-basic-auth');
+//dotenv
+require('dotenv').config();
 
 const minimist = require('minimist');
 const controller = require('./controller');
@@ -13,6 +16,9 @@ const {CacheFactoryCreateConfig, CacheFactory} = require("./cache/factory");
 const {LoggerFactory, LoggerFactoryCreateConfig} = require("./logging/factory");
 
 const argv = minimist(process.argv.slice(2));
+
+const basicAuthUser = argv['basic-auth-user'] || process.env.BASIC_AUTH_USER || null;
+const basicAuthPassword = argv['basic-auth-password'] || process.env.BASIC_AUTH_PASSWORD || null;
 
 const loggerFactoryCreateConfig = new LoggerFactoryCreateConfig();
 loggerFactoryCreateConfig.Channel = argv['logger-channel'] || process.env.SCREENSHOTER_LOGGER_CHANNEL || 'console';
@@ -70,6 +76,7 @@ const chromiumExecutablePath = argv['chromium-executable-path'] || process.env.S
 /** @type {string|null} */
 //Format: IP:port. Sample: 34.249.133.130:8888
 const proxyServer = argv['puppeteer--proxy-server'] || process.env.PROXY_SERVER || null;
+
 
 /** @type {string[]} */
 const puppeteerLaunchOptionsArgs = [
@@ -137,6 +144,16 @@ if (cache) {
         req.logger = logger;
         next();
     });
+
+    //if basicAuthUser and basicAuthPassword are set, use basic auth
+    if (basicAuthUser && basicAuthPassword) {
+        var options = {
+            users: {
+                [basicAuthUser]: basicAuthPassword
+            }
+        };
+        app.use(basicAuth(options));
+    }
 
     // We're not going to include "ping" to the metrics
     app.get('/ping', (req, res) => {

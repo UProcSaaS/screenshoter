@@ -55,5 +55,5 @@ ENTRYPOINT ["node", "app.js", "--host 127.0.0.1", "--chromium-executable-path", 
 CMD []
 EXPOSE 8080
 
-HEALTHCHECK --interval=1m --timeout=1s \
-  CMD wget -O- http://127.0.0.1:8080/ping > /dev/null 2>&1
+# HEALTHCHECK --interval=1m --timeout=1s \
+#   CMD wget -O- http://127.0.0.1:8080/ping > /dev/null 2>&1
